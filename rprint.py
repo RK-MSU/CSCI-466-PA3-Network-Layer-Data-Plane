@@ -10,3 +10,5 @@ p = print
 def print(*a, **b):
     with mylock:
         p(*a, **b)
+
+# EOF

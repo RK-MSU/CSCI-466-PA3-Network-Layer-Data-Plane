@@ -1,7 +1,9 @@
 """
-Created on Oct 12, 2016
+network.py
 
-@author: mwittie
+Created on Oct 26, 2021
+
+@author: RK-MSU
 """
 import queue
 import threading
@@ -149,3 +151,5 @@ class Router:
             if self.stop:
                 print(threading.currentThread().getName() + ': Ending')
                 return
+
+# EOF

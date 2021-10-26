@@ -1,7 +1,9 @@
 """
-Created on Oct 12, 2016
+simulation.py
 
-@author: mwittie
+Created on Oct 26, 2021
+
+@author: RK-MSU
 """
 
 import network
@@ -54,3 +56,5 @@ if __name__ == '__main__':
         t.join()
     
     print("All simulation threads joined")
+
+# EOF

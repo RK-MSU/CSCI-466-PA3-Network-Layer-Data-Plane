@@ -1,7 +1,9 @@
 """
-Created on Oct 12, 2016
+link.py
 
-@author: mwittie
+Created on Oct 26, 2021
+
+@author: RK-MSU
 """
 
 import queue
@@ -84,3 +86,5 @@ class LinkLayer:
             if self.stop:
                 print(threading.currentThread().getName() + ': Ending')
                 return
+
+# EOF
