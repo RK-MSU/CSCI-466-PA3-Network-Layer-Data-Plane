@@ -61,8 +61,7 @@ class NetworkPacket:
 
 # Implements a network host for receiving and transmitting data
 class Host:
-    
-    #@param addr: address of this node represented as an integer
+    # @param addr: address of this node represented as an integer
     def __init__(self, addr):
         self.addr = addr
         self.in_intf_L = [Interface()]
