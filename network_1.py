@@ -77,13 +77,12 @@ class Host:
     # create a packet and enqueue for transmission
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
-    def udt_send(self, dst_addr, data_S):
-        max_data_len = self.out_intf_L[0].mtu
-        if len(data_S) > max_data_len:
+    def udt_send(self, dst_addr, data_S, mtu_limit):
+        if len(data_S) > mtu_limit:
             while True:
                 data_len = len(data_S)
-                if data_len > max_data_len:
-                    data_len = max_data_len
+                if data_len > mtu_limit:
+                    data_len = mtu_limit
                 new_data_S = data_S[:data_len]
                 data_S = data_S[data_len:]
                 p = NetworkPacket(dst_addr, new_data_S)
