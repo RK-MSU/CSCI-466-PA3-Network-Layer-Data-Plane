@@ -32,13 +32,13 @@ class Link:
     def tx_pkt(self):
         pkt_S = self.in_intf.get()
         if pkt_S is None:
-            return  # return if no packet to transfer
+            return # return if no packet to transfer
         if len(pkt_S) > self.in_intf.mtu:
             print('%s: packet "%s" length greater than the from interface MTU (%d)' % (self, pkt_S, self.out_intf.mtu))
-            return  # return without transmitting if packet too big
+            return # return without transmitting if packet too big
         if len(pkt_S) > self.out_intf.mtu:
             print('%s: packet "%s" length greater than the to interface MTU (%d)' % (self, pkt_S, self.out_intf.mtu))
-            return  # return without transmitting if packet too big
+            return # return without transmitting if packet too big
         # otherwise transmit the packet
         try:
             self.out_intf.put(pkt_S)
