@@ -1,7 +1,7 @@
 # simulation_1.py
 
-import network
-import link
+import network_1 as network
+import link_1 as link
 import threading
 from time import sleep
 from rprint import print
@@ -38,7 +38,8 @@ if __name__ == '__main__':
     
     # create some send events
     for i in range(3):
-        client.udt_send(2, 'Sample data %d' % i)
+        msg = 'Sample data: 1xyz 2xyz 3xyz 4xyz 5xyz 6xyz 7xyz 8xyz 9xyz 10xyz 11xyz 12xyz 13xyz 14xyz 15xyz 16xyz - %d' % i
+        client.udt_send(2, msg, 40) # mtu_limit of 40
     
     # give the network sufficient time to transfer all packets before quitting
     sleep(simulation_time)
