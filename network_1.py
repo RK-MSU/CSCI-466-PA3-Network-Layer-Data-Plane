@@ -78,9 +78,23 @@ class Host:
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
     def udt_send(self, dst_addr, data_S):
-        p = NetworkPacket(dst_addr, data_S)
-        print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
-        self.out_intf_L[0].put(p.to_byte_S())  # send packets always enqueued successfully
+        max_data_len = self.out_intf_L[0].mtu
+        if len(data_S) > max_data_len:
+            while True:
+                data_len = len(data_S)
+                if data_len > max_data_len:
+                    data_len = max_data_len
+                new_data_S = data_S[:data_len]
+                data_S = data_S[data_len:]
+                p = NetworkPacket(dst_addr, new_data_S)
+                print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, data_len))
+                self.out_intf_L[0].put(p.to_byte_S())  # send packets always enqueued successfully
+                if len(data_S) < 1:
+                    break
+        else:
+            p = NetworkPacket(dst_addr, data_S)
+            print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
+            self.out_intf_L[0].put(p.to_byte_S())  # send packets always enqueued successfully
     
     # receive packet from the network layer
     def udt_receive(self):
@@ -102,8 +116,7 @@ class Host:
 
 # Implements a multi-interface router described in class
 class Router:
-    
-    #@param name: friendly router name for debugging
+    # @param name: friendly router name for debugging
     # @param intf_count: the number of input and output interfaces
     # @param max_queue_size: max queue length (passed to Interface)
     def __init__(self, name, intf_count, max_queue_size):

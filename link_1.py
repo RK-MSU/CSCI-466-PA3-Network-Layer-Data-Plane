@@ -7,7 +7,6 @@ from rprint import print
 
 # An abstraction of a link between router interfaces
 class Link:
-    
     # creates a link between two objects by looking up and linking node interfaces.
     # @param from_node: node from which data will be transfered
     # @param from_intf_num: number of the interface on that node

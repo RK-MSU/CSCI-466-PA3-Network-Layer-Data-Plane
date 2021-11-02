@@ -9,7 +9,7 @@ from rprint import print
 
 # configuration parameters
 router_queue_size = 0  # 0 means unlimited
-simulation_time = 1  # give the network sufficient time to transfer all packets before quitting
+simulation_time = 2  # give the network sufficient time to transfer all packets before quitting
 
 if __name__ == '__main__':
     object_L = []  # keeps track of objects, so we can kill their threads
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     
     # create some send events
     for i in range(3):
-        msg = 'Sample data'
+        msg = 'Sample data: 1xyz 2xyz 3xyz 4xyz 5xyz 6xyz 7xyz 8xyz 9xyz 10xyz 11xyz 12xyz 13xyz 14xyz 15xyz 16xyz'
         client.udt_send(2, msg)
     
     # give the network sufficient time to transfer all packets before quitting
