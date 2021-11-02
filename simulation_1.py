@@ -1,11 +1,7 @@
-"""
-Created on Oct 12, 2016
+# simulation_1.py
 
-@author: mwittie
-"""
-
-import network1 as network
-import link1 as link
+import network
+import link
 import threading
 from time import sleep
 from rprint import print
