@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # add all the links
     # link parameters: from_node, from_intf_num, to_node, to_intf_num, mtu
     link_layer.add_link(link.Link(client, 0, router_a, 0, 50))
-    link_layer.add_link(link.Link(router_a, 0, server, 0, 50))
+    link_layer.add_link(link.Link(router_a, 0, server, 0, 30)) # changed to 30
     
     # start all the objects
     thread_L = [threading.Thread(name=object.__str__(), target=object.run) for object in object_L]
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     # create some send events
     for i in range(3):
         msg = 'Sample data: 1xyz 2xyz 3xyz 4xyz 5xyz 6xyz 7xyz 8xyz 9xyz 10xyz 11xyz 12xyz 13xyz 14xyz 15xyz 16xyz - %d' % i
-        client.udt_send(2, msg, 40) # mtu_limit of 40
+        client.udt_send(2, msg, i)
     
     # give the network sufficient time to transfer all packets before quitting
     sleep(simulation_time)
