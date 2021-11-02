@@ -111,6 +111,10 @@ class Host:
             print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, mtu))
             self.out_intf_L[0].put(p.to_byte_S())
             self.udt_send(dst_addr, data_S[offset:], id, mtu, msg_length - offset)
+        else:
+            p = NetworkPacket(dst_addr, data_S[offset:msg_length], id, 0, offset)
+            print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, mtu))
+            self.out_intf_L[0].put(p.to_byte_S())
     
     # receive packet from the network layer
     def udt_receive(self):
@@ -138,16 +142,17 @@ class Host:
 
 # Implements a multi-interface router described in class
 class Router:
-    
+    routing_table = None
     #@param name: friendly router name for debugging
     # @param intf_count: the number of input and output interfaces
     # @param max_queue_size: max queue length (passed to Interface)
-    def __init__(self, name, intf_count, max_queue_size):
+    def __init__(self, name, intf_count, max_queue_size, routing_table):
         self.stop = False  # for thread termination
         self.name = name
         # create a list of interfaces
         self.in_intf_L = [Interface(max_queue_size) for _ in range(intf_count)]
         self.out_intf_L = [Interface(max_queue_size) for _ in range(intf_count)]
+        self.routing_table = routing_table
     
     # called when printing the object
     def __str__(self):
@@ -163,7 +168,7 @@ class Router:
                 pkt_S = self.in_intf_L[i].get()
                 if pkt_S is not None:
                     p = NetworkPacket.from_byte_S(pkt_S)  # parse a packet out
-                    self.handle_frag(p, i, i, self.out_intf_L[i].mtu)
+                    self.handle_frag(p, i, self.routing_table.get(p.dst_addr), self.out_intf_L[i].mtu)
             except queue.Full:
                 print('%s: packet "%s" lost on interface %d' % (self, p, i))
                 pass
