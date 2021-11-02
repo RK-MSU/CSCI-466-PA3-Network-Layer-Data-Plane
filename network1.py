@@ -1,4 +1,5 @@
 # network1.py
+
 import queue
 import threading
 from rprint import print
@@ -76,12 +77,20 @@ class Host:
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
     def udt_send(self, dst_addr, data_S):
-        # TODO: split the packet into multiple segments
-        if len(data_S) > self.out_intf_L[0].mtu:
-
-
-            pass
-        else: # use original code
+        max_data_len = self.out_intf_L[0].mtu
+        if len(data_S) > max_data_len:
+            while True:
+                data_len = len(data_S)
+                if data_len > max_data_len:
+                    data_len = max_data_len
+                new_data_S = data_S[:data_len]
+                data_S = data_S[data_len:]
+                p = NetworkPacket(dst_addr, new_data_S)
+                print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, data_len))
+                self.out_intf_L[0].put(p.to_byte_S())  # send packets always enqueued successfully
+                if len(data_S) < 1:
+                    break
+        else:
             p = NetworkPacket(dst_addr, data_S)
             print('%s: sending packet "%s" on the out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
             self.out_intf_L[0].put(p.to_byte_S())  # send packets always enqueued successfully
